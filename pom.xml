@@ -8,6 +8,14 @@
   <packaging>pom</packaging>
   <version>1.12-SNAPSHOT</version>
 
+  <distributionManagement>
+    <site>
+      <id>internal.repo</id>
+      <name>Temporary Staging Repository</name>
+      <url>file://${project.build.directory}/mvn-repo</url>
+    </site>
+  </distributionManagement>
+
   <name>Docs Parent</name>
 
   <properties>
@@ -116,6 +124,55 @@
         <artifactId>jetty-maven-plugin</artifactId>
         <version>${org.eclipse.jetty.jetty-maven-plugin.version}</version>
       </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.21.0</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>site</goal>
+            </goals>
+            <phase>site</phase>
+          </execution>
+        </executions>
+        <configuration>
+          <locales>en_US</locales>
+          <outputDirectory>${project.build.directory}/site</outputDirectory>
+          <relativizeDecorationLinks>false</relativizeDecorationLinks>
+          <reportSets>
+            <reportSet>
+              <id>aggregate</id>
+              <inherited>false</inherited>
+              <reports>
+                <report>aggregate</report>
+              </reports>
+            </reportSet>
+          </reportSets>
+          <reportPlugins>
+            <reportPlugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-project-info-reports-plugin</artifactId>
+              <version>3.21.0</version>
+              <configuration>
+                <dependencyDetailsEnabled>true</dependencyDetailsEnabled>
+                <dependencyLocationsEnabled>true</dependencyLocationsEnabled>
+              </configuration>
+            </reportPlugin>
+            <reportPlugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>3.21.0</version>
+              <configuration>
+                <additionalparam>-Xdoclint:none</additionalparam>
+              </configuration>
+            </reportPlugin>
+          </reportPlugins>
+          <aggregate>true</aggregate>
+        </configuration>
+      </plugin>
+
     </plugins>
   </build>
 
