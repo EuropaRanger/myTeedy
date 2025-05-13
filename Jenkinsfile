@@ -5,7 +5,7 @@ pipeline {
     	DOCKER_HUB_CREDENTIALS = credentials('docker-hub')
     	
         // Docker Hub 镜像名（用户名/仓库）
-        DOCKER_IMAGE = 'danielchen3/teedy2025_manual'
+        DOCKER_IMAGE = 'lcjy/teedy'
 
         // 使用 Jenkins 构建号作为 tag
         DOCKER_TAG = "${env.BUILD_NUMBER}"
