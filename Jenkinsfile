@@ -15,9 +15,9 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scmGit(
-                    branches: [[name: '*/master']],
+                    branches: [[name: '*/lab12']],
                     extensions: [],
-                    userRemoteConfigs: [[url: 'https://github.com/danielchen3/teedy2.git']]
+                    userRemoteConfigs: [[url: 'https://github.com/EuropaRanger/myTeedy.git']]
                 )
             }
         }
@@ -38,9 +38,9 @@ pipeline {
 
         stage('Push to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'danielchen_dockerhub_cre', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withCredentials([usernamePassword(credentialsId: 'docker-hub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     script {
-                        docker.withRegistry('https://registry.hub.docker.com', 'danielchen_dockerhub_cre') {
+                        docker.withRegistry('https://registry.hub.docker.com', 'docker-hub') {
                             docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").push()
                             docker.image("${DOCKER_IMAGE}:${DOCKER_TAG}").push('latest')
                         }
